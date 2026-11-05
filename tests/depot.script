@@ -1,0 +1,58 @@
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+press b
+wait 500
+usb DBG DEPOT 4
+wait 150
+usb DBG CREDITS 4000
+wait 150
+usb DBG FUEL 1
+wait 150
+usb DBG POI 2
+wait 300
+shot x0_map_depot
+press a                 # arrive at the depot
+wait 600
+shot x1_perk_popup
+press a
+wait 500
+press c
+wait 300
+shot x2_services
+press a                 # trade goods
+wait 300
+press down 5            # He-3 row
+press right 2           # buy 2
+press down              # dark matter
+press right             # buy 1
+wait 300
+shot x3_goods_exotic
+press b
+wait 200
+press b
+wait 200
+press b                 # leave
+wait 500
+press c                 # ship menu
+wait 300
+shot x4_ship_menu
+press down 2            # burn He-3
+press a
+wait 300
+shot x5_burn
+press a
+wait 200
+press down
+press a                 # dark matter
+wait 300
+shot x6_burn_dark
+press a
+wait 200
+shot x7_menu_after

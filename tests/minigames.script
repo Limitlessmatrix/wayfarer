@@ -1,0 +1,50 @@
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+press b
+wait 500
+usb DBG SIGNAL 2
+wait 1200
+shot s0_signal_intro
+wait 2500
+shot s1_signal_listen
+wait 2000
+press up
+wait 300
+shot s2_signal_repeat
+wait 6000
+shot s3_signal_result
+press a
+wait 300
+usb DBG DRILL
+wait 800
+shot d0_drill
+press a
+wait 600
+shot d1_drill_hit
+wait 1200
+press a
+wait 500
+press a
+wait 500
+press a
+wait 500
+shot d2_drill_later
+wait 20000
+shot d3_drill_end
+press a
+wait 300
+usb DBG ROCK 0
+wait 200
+press a
+wait 800
+shot r0_rock_choice
+press b
+wait 800
+shot r1_drill_from_rock

@@ -1,0 +1,79 @@
+# Frontier systems walkthrough using host debug hooks.
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+press b                 # map
+wait 500
+usb DBG GIVE 1 4        # 4 ore
+wait 150
+usb DBG GIVE 2 2        # 2 gas
+wait 150
+usb DBG GIVE 4 1        # 1 parts
+wait 150
+usb DBG HULL 1
+wait 150
+wait 300
+shot g0_map
+press c                 # ship menu
+wait 300
+shot g1_menu
+press a                 # repair hull
+wait 300
+shot g2_repair
+press a
+wait 200
+press down 2            # refine
+press a
+wait 300
+shot g3_refine
+press a
+wait 200
+shot g4_menu_after
+press b                 # back to map
+wait 300
+usb DBG POI 8
+wait 150
+wait 300
+shot g5_at_poi
+press a                 # enter the outpost
+wait 500
+shot g6_market
+press c                 # services
+wait 300
+shot g6b_services
+press a                 # trade goods
+wait 300
+shot g7_goods
+press right 2           # buy 2 ore
+press down 3            # parts row
+press right             # buy 1 parts
+wait 300
+shot g8_goods_bought
+press b
+wait 300
+press b                 # back to the market
+wait 300
+press b                 # leave market
+wait 500
+usb DBG WRECK 0
+wait 150
+wait 300
+shot g9_at_wreck
+press a
+wait 400
+shot g10_wreck_prompt
+press a                 # board
+wait 1000
+shot g11_maze
+press b                 # abort
+wait 1200
+shot g12_wreck_fail
+press a
+wait 300
+shot g13_map_end

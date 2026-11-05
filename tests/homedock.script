@@ -1,0 +1,61 @@
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+shot h0_start_credits
+press b                 # map
+wait 500
+usb DBG GIVE 0 3
+wait 150
+usb DBG GIVE 5 1
+wait 150
+usb DBG HULL 1
+wait 150
+usb DBG HOME
+wait 300
+press a                 # dock at home
+wait 600
+shot h1_dock
+press down
+press a                 # shipyard
+wait 400
+shot h2_home_yard_locked
+press b
+wait 300
+press up
+press a                 # complete mission
+wait 800
+shot h3_victory
+press a
+wait 2500
+shot h4_title
+press a                 # second mission, intro skipped after the first
+wait 1500
+press b                 # to map
+wait 500
+usb DBG CREDITS 6000
+wait 150
+usb DBG HOME
+wait 300
+press a
+wait 500
+press up 2
+press a                 # shipyard
+wait 300
+press down 4            # mining rig
+wait 200
+shot h5_module_unlocked
+press a
+wait 300
+shot h6_module_bought
+press a
+wait 200
+press down
+press a                 # long tanks (needs 2 missions, locked)
+wait 300
+shot h7_locked_next

@@ -1,0 +1,36 @@
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+press b
+wait 500
+usb DBG ROCK 0
+wait 200
+press a                 # fly onto the rock
+wait 1500
+shot m0_asteroid_prompt
+press a
+wait 3000
+shot m1_asteroid_play
+hold a 600              # a few shots
+wait 18000
+shot m2_asteroid_result
+press a
+wait 500
+press a                 # ore popup if any
+wait 300
+usb DBG CLOUD
+wait 200
+press a
+wait 1500
+press a
+wait 4000
+shot m3_nebula_play
+hold up 6000
+wait 10000
+shot m4_nebula_result

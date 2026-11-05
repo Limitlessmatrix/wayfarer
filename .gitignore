@@ -1,0 +1,7 @@
+build/
+save/
+__pycache__/
+*.pyc
+*.o
+*.so
+upstream/firmware/build/

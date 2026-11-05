@@ -1,0 +1,23 @@
+# Ship A: boot, start a mission, fly one hex east, report peers.
+wait 2500
+press a          # title: start mission
+wait 300
+hold a 3500      # holding A fast forwards the intro message
+press a          # dismiss it
+wait 300
+hold a 3500
+press a
+wait 1500
+shot a2_shipyard
+press b          # leave the shipyard, onto the map
+wait 1000
+shot a3_map
+peers
+hold right 600   # pan so the target hex is one step east
+press a          # fly one hex
+wait 4000
+peers
+shot a4_flown
+wait 4000
+peers
+shot a5_end

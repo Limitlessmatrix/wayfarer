@@ -1,0 +1,113 @@
+# Story pack: Relics of the First Builders. Three chained events ending in a derelict vault.
+# Ids 100+ are reserved for packs. Flags are named here and resolved to bits by the generator.
+flags: [builders_started, builders_cache, builders_done]
+events:
+  - id: 101
+    title: "Signal in the Static"
+    once: true
+    forbids_flags: [builders_started]
+    weight: 9
+    description: "A carrier wave bleeds through the comms, older than any registered beacon. It repeats a short pattern, then a string of coordinates that drift every few seconds. Your navigator frowns: 'That is not a distress call. That is an index.'"
+    options:
+      - text: "Follow the signal"
+        outcomes:
+          - name: "You lock the drifting coordinates. They point to something buried in the shipping lanes."
+            chance: 100
+            effects:
+              - set_flag: builders_started
+              - chain: 102
+      - text: "Decode it first (Scientist)"
+        requirement: "Scientist"
+        outcomes:
+          - name: "Your scientist strips the drift and finds a maker's mark beneath it. The First Builders. The crew goes quiet."
+            chance: 100
+            effects:
+              - set_flag: builders_started
+              - xp: +40
+              - chain: 102
+      - text: "Log it and move on"
+        outcomes:
+          - name: "You note the frequency in the log. The signal fades behind you."
+            chance: 100
+            effects:
+              - xp: +10
+  - id: 102
+    title: "The Cartographer's Cache"
+    once: true
+    requires_flags: [builders_started]
+    forbids_flags: [builders_cache]
+    description: "The coordinates resolve to a lattice of plated spheres strung between two dead satellites. One sphere is open and empty. The others hum. A faint path of scorch marks shows where someone tried to force one and lost."
+    options:
+      - text: "Cut one open"
+        outcomes:
+          - name: "The plating peels back cleanly. Inside: a star chart etched into alloy, and a hull section worth salvaging."
+            chance: 65
+            effects:
+              - set_flag: builders_cache
+              - alloy: +1
+          - name: "The sphere discharges. The flash tears a panel off your hull before the chart tumbles free."
+            chance: 35
+            effects:
+              - set_flag: builders_cache
+              - hull: -1
+      - text: "Scan the lattice (Scientist)"
+        requirement: "Scientist"
+        outcomes:
+          - name: "The scan finds the safe sphere. It opens on its own. The chart points to a wreck already on your map."
+            chance: 100
+            effects:
+              - set_flag: builders_cache
+              - xp: +40
+      - text: "Trade the chart to a passing hauler"
+        outcomes:
+          - name: "The hauler pays well and jumps before you can change your mind. Whatever the chart held is theirs now."
+            chance: 100
+            effects:
+              - set_flag: builders_cache
+              - credits: +400
+  - id: 103
+    title: "The Builders' Vault"
+    once: true
+    at: derelict
+    requires_flags: [builders_cache]
+    forbids_flags: [builders_done]
+    description: "Past the wreck's core a sealed door carries the same maker's mark as the chart. Behind it the air is still and warm. Something in there has been running for a very long time."
+    options:
+      - text: "Breach the door (Soldier)"
+        requirement: "Soldier"
+        outcomes:
+          - name: "The charge takes the door clean off. Inside, a relic rests in a cradle of light. Your soldier lifts it free."
+            chance: 100
+            effects:
+              - set_flag: builders_done
+              - relic: +1
+              - upgrade: 0
+      - text: "Read the glyphs (Scientist)"
+        requirement: "Scientist"
+        outcomes:
+          - name: "The door answers the chart's pattern and slides open. The relic inside seems to recognise you."
+            chance: 100
+            effects:
+              - set_flag: builders_done
+              - relic: +1
+              - xp: +80
+              - upgrade: 0
+      - text: "Force it"
+        outcomes:
+          - name: "Brute work and bent tools. The door gives. The relic is yours, and so is a cracked strut."
+            chance: 60
+            effects:
+              - set_flag: builders_done
+              - relic: +1
+              - hull: -1
+              - upgrade: 0
+          - name: "The door does not move. The warmth behind it fades, as if something decided you were not worth the trouble."
+            chance: 40
+            effects:
+              - reputation: -50
+      - text: "Leave it sealed"
+        outcomes:
+          - name: "Some doors should stay shut. The crew respects the call."
+            chance: 100
+            effects:
+              - reputation: +60

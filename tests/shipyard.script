@@ -1,0 +1,49 @@
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+press b                 # map
+wait 500
+usb DBG YARD 511
+wait 150
+usb DBG CREDITS 5000
+wait 150
+usb DBG POI 2
+wait 300
+shot y0_map_marker
+press a                 # outpost
+wait 500
+press c                 # services
+wait 300
+shot y1_services
+press down 2
+press a                 # shipyard
+wait 300
+shot y2_shipyard
+press a                 # fuel tank
+wait 300
+press a
+wait 200
+press down
+press a                 # hull armor
+wait 300
+press a
+wait 200
+press down
+press a                 # cargo bay
+wait 300
+press a
+wait 200
+shot y3_after_upgrades
+press b
+wait 200
+press b
+wait 200
+press b
+wait 500
+shot y4_map_after

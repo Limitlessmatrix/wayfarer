@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wayfarer-relay
+  namespace: saintcon
+  labels: {app: wayfarer-relay, part-of: wayfarer}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: wayfarer-relay}
+  strategy: {type: Recreate}
+  template:
+    metadata:
+      labels: {app: wayfarer-relay, part-of: wayfarer}
+    spec:
+      securityContext: {runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000}
+      containers:
+        - name: relay
+          image: python:3.12-slim
+          command: ["sh", "-c"]
+          args:
+            - pip install --no-cache-dir --quiet --target /tmp/pylib 'websockets==17.4' &&
+              PYTHONPATH=/tmp/pylib exec python -u /app/relay.py --host 0.0.0.0 --port 8766
+          env:
+            - {name: HOME, value: /tmp}
+          ports:
+            - {containerPort: 8766, name: ws}
+          readinessProbe:
+            tcpSocket: {port: 8766}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: ["ALL"]}
+          volumeMounts:
+            - {name: code, mountPath: /app}
+      volumes:
+        - name: code
+          configMap: {name: wayfarer-relay}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wayfarer-relay
+  namespace: saintcon
+  labels: {app: wayfarer-relay, part-of: wayfarer}
+spec:
+  selector: {app: wayfarer-relay}
+  ports:
+    - {port: 8766, targetPort: 8766, name: ws}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wayfarer-relay
+  namespace: saintcon
+  labels: {app: wayfarer-relay, part-of: wayfarer}
+spec:
+  ingressClassName: haproxy
+  rules:
+    - host: wayfarer-relay.nrp-nautilus.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wayfarer-relay
+                port: {number: 8766}
+  tls:
+    - hosts: [wayfarer-relay.nrp-nautilus.io]

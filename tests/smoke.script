@@ -1,0 +1,16 @@
+# Boot the stock game headless, start a mission, take screenshots.
+# Run: build/emu-cli --script tests/smoke.script --out save/smoke --seed 0x20265343 --verbose
+wait 3000
+shot title
+press a
+wait 1500
+shot intro1
+press a
+wait 1000
+shot intro2
+press a
+wait 1000
+shot home_market
+press b
+wait 1000
+shot map

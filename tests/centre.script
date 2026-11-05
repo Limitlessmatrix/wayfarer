@@ -1,0 +1,20 @@
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+press b
+wait 500
+usb DBG GIVE 4 1
+wait 150
+usb DBG HULL 1
+wait 150
+press c                 # ship menu
+wait 300
+press c                 # centre selects: repair hull
+wait 400
+shot c0_centre_select

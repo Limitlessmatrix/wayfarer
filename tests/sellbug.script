@@ -1,0 +1,30 @@
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+press b
+wait 500
+usb DBG DEPOT 0
+wait 150
+usb DBG GIVE 1 3
+wait 150
+usb DBG POI 8
+wait 300
+press a
+wait 1200
+shot sb0_market
+press right
+wait 300
+shot sb1_sell_selected
+press a                 # SELL CARGO with ore only, should not pay
+wait 300
+press a
+wait 300
+press a
+wait 300
+shot sb2_after_sell_attempts

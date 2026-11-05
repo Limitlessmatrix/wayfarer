@@ -1,0 +1,36 @@
+wait 2500
+tap 180 180             # title: tap anywhere starts (fallback A)
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+tap 100 225             # shipyard: tap FUEL TANK
+wait 400
+shot t0_fuel_bought
+tap 180 120             # tap the text box: station services
+wait 400
+shot t1_services_by_tap
+tap 180 120             # tap "Job board" row (y=120)
+wait 400
+shot t2_board_by_tap
+tap 180 300             # tap the hint line: back
+wait 300
+tap 180 150             # services "Back" row (y=150)
+wait 300
+tap 180 285             # START MISSION
+wait 800
+shot t3_map
+drag -120 -60           # pan the map
+wait 300
+shot t4_map_dragged
+tap 180 340             # HUD tap: ship menu
+wait 400
+shot t5_ship_menu_by_tap
+tap 180 302             # Back row (y=102+8*25=302)
+wait 300
+tap 250 150             # tap a hex: fly one step toward it
+wait 1500
+shot t6_after_fly

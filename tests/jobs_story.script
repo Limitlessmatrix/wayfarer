@@ -1,0 +1,81 @@
+# Contracts and story chain walkthrough with host debug hooks.
+wait 2500
+press a
+wait 300
+hold a 3500
+press a
+wait 300
+hold a 3500
+press a
+wait 1500
+press c                 # station services from the shipyard
+wait 300
+shot j0_services_home
+press a                 # job board
+wait 300
+shot j1_home_board
+press a                 # accept first job
+wait 300
+press a                 # dismiss popup
+wait 200
+shot j2_home_board_taken
+press b
+wait 200
+press b
+wait 200
+press b                 # leave shipyard, map
+wait 500
+press c                 # ship menu
+wait 200
+press down 4            # contracts
+press a
+wait 300
+shot j3_contracts_popup
+press a
+wait 200
+press b
+wait 300
+usb DBG POI 3
+wait 200
+press a                 # enter outpost 3
+wait 500
+press c
+wait 200
+press down
+press a                 # job board at the outpost
+wait 300
+shot j4_outpost_board
+press b
+wait 200
+press b
+wait 200
+press b                 # leave market
+wait 500
+usb DBG CHAIN 101
+wait 200
+hold right 600
+press a                 # fly one hex, the chained story event fires
+wait 1500
+shot j5_story_101
+press a                 # choose first option
+wait 800
+shot j6_story_101_outcome
+press a
+wait 300
+hold right 600
+press a                 # next tile: chained 102
+wait 1500
+shot j7_story_102
+press down
+press a                 # second option (scientist) if available else wraps
+wait 800
+shot j8_story_102_outcome
+press a
+wait 300
+usb DBG WRECK 1
+wait 200
+press a                 # board
+wait 400
+press a
+wait 600
+shot j9_maze
