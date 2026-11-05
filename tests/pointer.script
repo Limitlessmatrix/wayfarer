@@ -1,0 +1,49 @@
+wait 2500
+press a
+wait 300
+ptr 180 180 1           # hold the screen: intro text fast forwards
+wait 2500
+ptr 0 0 0
+shot p0_text_held
+press a
+wait 300
+ptr 180 180 1
+wait 2500
+ptr 0 0 0
+press a
+wait 1500
+press b
+wait 500
+usb DBG ROCK 0
+wait 200
+press a                 # fly onto the rock
+wait 1500
+press a                 # blast it
+wait 500
+press a                 # "clear the asteroid field"
+wait 400
+scene
+ptr 320 60 1            # hold up right: ship turns toward it and fires
+wait 1500
+shot p1_aim_fire
+ptr 0 0 0
+wait 300
+press b
+wait 19000
+press a
+wait 500
+press a
+wait 300
+usb DBG CLOUD
+wait 200
+press a                 # fly into the nebula
+wait 1500
+press a                 # "escape the nebula"
+wait 500
+scene
+ptr 180 40 1            # hold above the ship: turn up and thrust
+wait 2500
+shot p2_nebula_steer
+ptr 0 0 0
+wait 500
+scene

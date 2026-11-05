@@ -177,13 +177,18 @@ int maze_game_loop(void) {
 // Frontier: timed wreck crawl. Returns 1 when the core (goal) is reached, 0 on timeout or B.
 int maze_play(uint32_t limit_ms) {
     maze_generate();
+    ui_set_scene(SCENE_MAZE);
     uint64_t end = time_us_64() + (uint64_t)limit_ms * 1000ULL;
+    uint64_t next_hold_step = 0;
     buttons_clear();
     while (true) {
         int buttons = buttons_get_and_clear();
         {
             int tx, ty;
-            if (ui_take_tap(&tx, &ty)) {
+            uint64_t tnow = time_us_64();
+            bool held = ui_pointer(&tx, &ty) && tnow >= next_hold_step;
+            if (held) next_hold_step = tnow + 140000ULL;
+            if (held || ui_take_tap(&tx, &ty)) {
                 int dx = tx - LCD_WIDTH / 2, dy = ty - LCD_HEIGHT / 2;
                 if (dx * dx > dy * dy) buttons |= dx < 0 ? BUTTON_LEFT : BUTTON_RIGHT;
                 else buttons |= dy < 0 ? BUTTON_UP : BUTTON_DOWN;
@@ -193,7 +198,7 @@ int maze_play(uint32_t limit_ms) {
         if ((buttons & BUTTON_DOWN) && can_move_to(player_x, player_y + 1)) player_y++;
         if ((buttons & BUTTON_LEFT) && can_move_to(player_x - 1, player_y)) player_x--;
         if ((buttons & BUTTON_RIGHT) && can_move_to(player_x + 1, player_y)) player_x++;
-        if (buttons & BUTTON_B) return 0;
+        if (buttons & BUTTON_B) { ui_set_scene(SCENE_UI); return 0; }
         frame_clear();
         frame_fill_rect(0, 0, LCD_WIDTH, LCD_HEIGHT, MAZE_BACK_COLOR);
         draw_maze();
@@ -208,12 +213,14 @@ int maze_play(uint32_t limit_ms) {
             frame_draw_string_centered(LCD_HEIGHT / 2 - 32, "CORE REACHED", GOAL_COLOR);
             frame_refresh();
             sleep_ms(800);
+            ui_set_scene(SCENE_UI);
             return 1;
         }
         if (rem == 0) {
             frame_draw_string_centered(LCD_HEIGHT / 2 - 32, "OUT OF TIME", STATUS_COLOR);
             frame_refresh();
             sleep_ms(800);
+            ui_set_scene(SCENE_UI);
             return 0;
         }
         frame_refresh();

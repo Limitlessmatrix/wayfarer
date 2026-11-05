@@ -2,14 +2,26 @@
 
 static volatile int tap_x = 0, tap_y = 0, tap_pending = 0;
 static volatile int drag_dx = 0, drag_dy = 0;
+static volatile int ptr_x = 0, ptr_y = 0, ptr_down = 0;
+static volatile int scene = 0;
 
 #ifdef WAYFARER_HOST
 // Exported to the host frontend.
 void platform_2026_tap(int x, int y) { tap_x = x; tap_y = y; tap_pending = 1; }
 void platform_2026_drag(int dx, int dy) { drag_dx += dx; drag_dy += dy; }
 int  platform_2026_tap_pending(void) { return tap_pending; }
+void platform_2026_pointer(int x, int y, int down) { ptr_x = x; ptr_y = y; ptr_down = down; }
+int  platform_2026_scene(void) { return scene; }
 void platform_2026_tap_clear(void) { tap_pending = 0; }
 #endif
+
+bool ui_pointer(int* x, int* y) {
+    if (!ptr_down) return false;
+    *x = ptr_x; *y = ptr_y;
+    return true;
+}
+
+void ui_set_scene(int s) { scene = s; }
 
 bool ui_take_tap(int* x, int* y) {
     if (!tap_pending) return false;

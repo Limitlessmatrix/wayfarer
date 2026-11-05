@@ -2,6 +2,7 @@
 #include "buttons.h"
 #include "pico/rand.h"
 #include "pico/stdlib.h"
+#include "touch.h"
 #include "ui.h"
 #include <stdint.h>
 #include <stdio.h>
@@ -146,6 +147,7 @@ int nebula_play() {
         spawn_nebula(i);
     }
 
+    ui_set_scene(SCENE_NEBULA);
     uint64_t start = time_us_64();
     uint64_t end = start + (18ULL * 1000000ULL);   // balance: 18 s, was 12
     uint64_t last = start;
@@ -164,6 +166,21 @@ int nebula_play() {
         // input
         int b = buttons_get_raw();
         int events = buttons_get_and_clear();
+        {
+            int px, py;
+            if (ui_pointer(&px, &py)) {
+                float dx = (float)px - OFF_X, dy = (float)py - OFF_Y;
+                if (dx * dx + dy * dy > 14.0f * 14.0f) {      // small dead zone around the ship
+                    float want = atan2f(dy, dx);
+                    float diff = want - ship_heading;
+                    while (diff > M_PI) diff -= 2.0f * M_PI;
+                    while (diff < -M_PI) diff += 2.0f * M_PI;
+                    if (diff > 0.05f) b |= BUTTON_RIGHT;
+                    else if (diff < -0.05f) b |= BUTTON_LEFT;
+                    if (diff < 0.6f && diff > -0.6f) b |= BUTTON_UP;
+                }
+            }
+        }
         if (b & BUTTON_LEFT) {
             ship_heading -= 3.0f * dt; // radians per second
         }
@@ -241,6 +258,7 @@ int nebula_play() {
         sleep_ms(33);
     }
 
+    ui_set_scene(SCENE_UI);
     // show result
     char buf2[64];
     if (d2 < d2_max) {

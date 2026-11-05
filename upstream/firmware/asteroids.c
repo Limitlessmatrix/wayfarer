@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "pico/rand.h"
 #include "pico/stdlib.h"
+#include "touch.h"
 #include <stdint.h>
 #include <math.h>
 
@@ -200,6 +201,8 @@ int astroids_play() {
     // init bullets
     for (int i = 0; i < BULLET_MAX; i++) bullets[i].active = 0;
 
+    ui_set_scene(SCENE_ASTEROIDS);
+    uint64_t next_auto_fire = 0;
     uint64_t start = time_us_64();
     uint64_t end = start + (20ULL * 1000000ULL);   // balance: 20 s, was 10
     uint64_t grace_until = start + 1500000ULL;        // no collisions for the first 1.5 s
@@ -216,6 +219,19 @@ int astroids_play() {
         // input
         int b = buttons_get_raw();
         int events = buttons_get_and_clear();
+        {
+            // touch hold: turn toward the finger at the normal rate and fire five times a second
+            int px, py;
+            if (ui_pointer(&px, &py)) {
+                float want = atan2f((float)py - ship_y, (float)px - ship_x);
+                float diff = want - ship_heading;
+                while (diff > M_PI) diff -= 2.0f * M_PI;
+                while (diff < -M_PI) diff += 2.0f * M_PI;
+                if (diff > 0.05f) b |= BUTTON_RIGHT;
+                else if (diff < -0.05f) b |= BUTTON_LEFT;
+                if (now >= next_auto_fire) { events |= BUTTON_A; next_auto_fire = now + 200000ULL; }
+            }
+        }
         if (b & BUTTON_LEFT) {
             ship_heading -= 3.6f * dt; // radians per second
         }
@@ -317,6 +333,7 @@ int astroids_play() {
         sleep_ms(33);
     }
 
+    ui_set_scene(SCENE_UI);
     // show result
     char buf2[64];
     if (collided) {

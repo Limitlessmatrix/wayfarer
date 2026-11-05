@@ -91,6 +91,12 @@ def main():
                 core.platform_2026_tap_clear()
                 step(64, BTN["a"])
                 step(64, 0)
+        elif cmd == "ptr":
+            core.platform_2026_pointer.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int]
+            core.platform_2026_pointer(int(parts[1]), int(parts[2]), int(parts[3]))
+        elif cmd == "scene":
+            core.platform_2026_scene.restype = ctypes.c_int
+            print(f"[{args.name}] scene={core.platform_2026_scene()}", flush=True)
         elif cmd == "drag":
             core.platform_2026_drag.argtypes = [ctypes.c_int, ctypes.c_int]
             core.platform_2026_drag(int(parts[1]), int(parts[2]))

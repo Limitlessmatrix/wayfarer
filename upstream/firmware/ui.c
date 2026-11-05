@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "touch.h"
 #include "framebuffer.h"
 #include "buttons.h"
 #include <stdint.h>
@@ -86,6 +87,7 @@ void gui_get_input(const char* prompt, char* buffer, int buffer_size) {
 
 
 void gui_show_message(const char* message) {
+    ui_set_scene(SCENE_TEXT);
     int idx=1;
     for (const char* ptr = message; *ptr; ptr++) {
         frame_clear();
@@ -139,7 +141,8 @@ void gui_show_message(const char* message) {
             delay = 600; // Longer delay for punctuation
         }
         terminal_update();
-        if (!(buttons_get_raw() & (BUTTON_A | BUTTON_B))) {
+        int ptx, pty;
+        if (!(buttons_get_raw() & (BUTTON_A | BUTTON_B)) && !ui_pointer(&ptx, &pty)) {
 
              sleep_ms(delay); // Only delay if no button is pressed, allowing users to skip through the text faster
         }
@@ -148,10 +151,14 @@ void gui_show_message(const char* message) {
         }
     }
     buttons_clear();
-    while (buttons_get_and_clear() == 0) {
-        terminal_update();
-        sleep_ms(100);
+    {
+        int tx, ty;
+        while (buttons_get_and_clear() == 0 && !ui_take_tap(&tx, &ty)) {
+            terminal_update();
+            sleep_ms(100);
+        }
     }
+    ui_set_scene(SCENE_UI);
 }
 
 void gui_show_crew(const char* name, const char class, int y) {

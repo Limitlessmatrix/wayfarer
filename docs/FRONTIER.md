@@ -90,6 +90,15 @@ Bugs fixed the same night: SELL CARGO paid out with no supplies in the hold (hol
 supplies) which gave infinite credits once any other good was aboard; negative cargo event effects now
 remove any goods (supplies first); the nebula harvest happens once per run instead of every re-entry.
 
+## Pointer input (2026-11-05)
+
+touch.c carries taps, drags, a held pointer and a scene hint. The host exports platform_2026_tap, drag,
+pointer and scene. Scenes: UI 0, asteroids 1, nebula 2, maze 3, drill 4, signal 5, text 6; the shell
+shows overlay controls in scenes 1 to 5. Holds map onto the stock inputs rather than touching physics:
+asteroids turn toward the pointer with the stock turn rate and fire every 200 ms; nebula turns and
+thrusts once within 0.6 rad of the pointer; the maze steps toward the pointer every 140 ms; text screens
+treat a hold like a held A. On the badge all of it reports nothing.
+
 ## Contracts (tasks and gigs)
 
 The home station and every outpost post jobs. Up to 3 accepted at a time, stored in

@@ -61,6 +61,7 @@ static void sleep_poll(int ms) {
 
 // Watch a growing pattern of directions, then repeat it. 1 on success.
 int signal_lock_play(int rounds, int start_len) {
+    ui_set_scene(SCENE_SIGNAL);
     int seq[16];
     int len = start_len;
     if (rounds + start_len > 16) rounds = 16 - start_len;
@@ -95,7 +96,7 @@ int signal_lock_play(int rounds, int start_len) {
                 else if (b & BUTTON_DOWN) dir = DIR_DOWN;
                 else if (b & BUTTON_LEFT) dir = DIR_LEFT;
                 else if (b & BUTTON_RIGHT) dir = DIR_RIGHT;
-                else if (b & BUTTON_B) { ws2812_clear(); return 0; }
+                else if (b & BUTTON_B) { ws2812_clear(); ui_set_scene(SCENE_UI); return 0; }
                 if (time_us_64() > deadline) break;
                 sleep_poll(10);
             }
@@ -104,6 +105,7 @@ int signal_lock_play(int rounds, int start_len) {
                 for (int k = 0; k < 4; ++k) leds_for(k, false);
                 sleep_poll(900);
                 ws2812_clear();
+                ui_set_scene(SCENE_UI);
                 return 0;
             }
             leds_for(dir, true);
@@ -117,6 +119,7 @@ int signal_lock_play(int rounds, int start_len) {
     draw_signal("SIGNAL DECODED", good_col, rounds, rounds, -1);
     sleep_poll(900);
     ws2812_clear();
+    ui_set_scene(SCENE_UI);
     return 1;
 }
 
@@ -126,6 +129,7 @@ int drill_play(void) {
     int hits = 0, misses = 0;
     float pos = 0.0f, speed = 150.0f;   // px per second
     int dir = 1;
+    ui_set_scene(SCENE_DRILL);
     buttons_clear();
     for (int beat = 0; beat < beats && misses < 3; ++beat) {
         int zone_w = 56 - beat * 3;
@@ -175,12 +179,13 @@ int drill_play(void) {
                 sleep_poll(350);
                 resolved = true;
             }
-            if (b & BUTTON_B) { return hits; }
+            if (b & BUTTON_B) { ui_set_scene(SCENE_UI); return hits; }
             sleep_poll(16);
         }
     }
     char msg[64];
     snprintf(msg, sizeof(msg), misses >= 3 ? "Drill overheated.\nOre chunks: %d" : "Seam exhausted.\nOre chunks: %d", hits);
+    ui_set_scene(SCENE_UI);
     frontier_popup_wait(msg);
     return hits;
 }

@@ -14,9 +14,17 @@ badge museum). Same tree builds the real badge.
     source ~/badge/env.sh && make badge     # Wayfarer.uf2 for the badge
 
 Keys: arrows or WASD, Enter/Space/E = centre, Z = A, X = B, F1 fast, F5 save EEPROM, F12 screenshot.
+Presentation, borrowed from a friend's Windows shell of the stock firmware: the window resizes,
+F11 is fullscreen, V cycles fit / fill / zoom, M toggles the round mask, C cycles the translucent
+overlay controls auto / on / off (auto shows them only in flight and challenge scenes), P pauses and
+losing focus pauses. Preferences (`display.json`) and the virtual board id (`board-id.bin`, so your
+player id is stable across launches) sit next to the EEPROM save.
+
 Touch pad style: the round screen behaves like a phone. Tap a menu row, market button, event option or
 map hex to act on it, drag the map to pan, tap the HUD for the ship menu, tap arrows in the signal lock
-and around the maze. Right click = B, middle = centre, wheel = up/down; the side panel also works. Taps
+and around the maze. Holds: hold the screen to fast forward message text; in the asteroid field hold
+and drag to aim at your finger and fire five times a second; in the nebula hold to turn and thrust
+toward your finger (small dead zone around the ship); in the wreck hold to keep walking toward it. Right click = B, middle = centre, wheel = up/down; the side panel also works. Taps
 no screen claims become an A press after 150 ms (popups, title, shooter). The joystick press is the
 third button: it opens the ship menu and services and selects inside every menu and event.
 Pointer input lives in upstream/firmware/touch.c; on the badge it reports nothing.
